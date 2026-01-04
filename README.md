@@ -15,6 +15,10 @@ Dependencies are pinned in `environment.yml` (Python 3.10, OpenCV, NumPy/SciPy/P
 matplotlib, Pillow, ipywidgets, tifffile, etc.).
 
 ```bash
+# clone and enter
+git clone git@github.com:BioProgramming-Lab/GEAR_data_analysis.git
+cd GEAR_data_analysis
+
 # create and activate
 conda env create -f environment.yml
 conda activate GEAR_data_analysis
