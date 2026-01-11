@@ -37,6 +37,47 @@ Run notebooks in Jupyter Notebook/Lab using the GEAR_data_analysis kernel.
 - Straightening: Target channel must have JSON; mapping channels must match dimensions of the target.
 - For time-series stacks (kymographs), provide multi-frame TIFFs per channel.
 
+## Project Structure, Numbering, and Run Order
+
+- Each figure is stored in its own folder (e.g., Fig2F, Fig4g, FigS7b).
+- Folder numbering (typical pattern):
+  - `00_*_raw` (or similar): raw input data for that figure.
+  - `02_*_straightener_output`: outputs from straightening/cropping steps.
+  - `04_*_plot_output` (or `02_*_plot_output` in some ROI-only figures): final plots and CSVs.
+- Notebook numbering (typical pattern):
+  - `01_*_straightener.ipynb` / `01_*_cropper.ipynb`: preprocessing (straighten/crop/prepare inputs).
+  - `03_*_plot.ipynb`: analysis and plotting.
+
+Storage layout example (typical):
+- | `FigS7b/`
+- | `00_FigS7b_raw/`
+- | `00_FigS7b_raw/c1_membrane/`
+- | `00_FigS7b_raw/c2_FtsZ/`
+- | `01_FigS7b_straightener.ipynb`
+- | `02_FigS7b_straightener_output/`
+- | `03_FigS7b_plot.ipynb`
+- | `04_FigS7b_plot_output/`
+
+Recommended run order:
+1) If a figure folder contains a `01_*` notebook, run it first to generate the `02_*` outputs.
+2) Run the `03_*_plot` notebook using the generated outputs (or raw data if no straightener is needed).
+3) Export figures and CSVs into the `04_*_plot_output` (or configured output) folder.
+
+## Relative Paths
+
+Path variables at the top of each notebook should use `pathlib.Path` with relative paths. Example:
+
+```python
+from pathlib import Path
+
+membrane_dir = Path('00_Fig2F_raw/c2_membrane')
+output_svg_file = Path('02_Fig2F_plot_output/Fig2F.svg')
+```
+
+Relative paths are resolved from the notebook's working directory (typically the figure folder), which keeps the
+project portable across machines without editing absolute paths. If you run a notebook from a different working
+directory, adjust the paths accordingly.
+
 ## Typical Workflows
 
 ### 1) Straightening (if needed)
