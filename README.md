@@ -344,13 +344,6 @@ copies or substantial portions of the Software.
 - [Skan](https://jni.github.io/skan/) for skeleton analysis
 - The scientific Python community for foundational libraries
 
----
-
-## Contact
-
-For questions or collaborations:
-- **GitHub Issues**: [Report bugs or request features](https://github.com/BioProgramming-Lab/GEAR_data_analysis/issues)
-- **Repository**: [BioProgramming-Lab/GEAR_data_analysis](https://github.com/BioProgramming-Lab/GEAR_data_analysis)
 
 ---
 
