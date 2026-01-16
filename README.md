@@ -314,34 +314,9 @@ CSV files typically contain:
 
 ---
 
-## Available Figures
-
-This repository contains analysis notebooks for the following figures:
-
-| Figure | Description | Type |
-|--------|-------------|------|
-| **Fig1H** | - | ROI Analysis |
-| **Fig2F** | - | ROI Analysis |
-| **Fig3D** | - | Straightened Profile |
-| **Fig4C** | - | Straightened Profile |
-| **Fig4e** | - | Straightened Profile |
-| **Fig4f** | - | Straightened Profile |
-| **Fig4g** | - | Straightened Profile |
-| **FigS4b** | - | ROI Analysis |
-| **FigS4c** | - | ROI Analysis |
-| **FigS4E** | - | ROI Analysis |
-| **FigS5d** | - | Straightened Profile |
-| **FigS6e** | - | Straightened Profile |
-| **FigS6g** | - | Straightened Profile |
-| **FigS7b** | - | Straightened Profile |
-| **FigS7c** | - | Straightened Profile |
-| **FigS7d** | - | Straightened Profile |
-
----
 
 ## Contributing
 
-We welcome contributions to improve the analysis workflows or documentation.
 
 ### Reporting Issues
 
@@ -384,20 +359,6 @@ copies or substantial portions of the Software.
 
 ---
 
-## Citation
-
-If you use this software in your research, please cite:
-
-```bibtex
-@software{gear_data_analysis,
-  title = {GEAR Data Analysis: Quantitative Spatial Fluorescence Analysis Toolkit},
-  author = {{BioProgramming-Lab}},
-  year = {2025},
-  url = {https://github.com/BioProgramming-Lab/GEAR_data_analysis}
-}
-```
-
----
 
 ## Acknowledgments
 
