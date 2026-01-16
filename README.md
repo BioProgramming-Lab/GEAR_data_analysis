@@ -315,28 +315,6 @@ CSV files typically contain:
 ---
 
 
-## Contributing
-
-
-### Reporting Issues
-
-If you encounter bugs or have feature requests, please open an issue on GitHub with:
-- A clear description of the problem
-- Steps to reproduce (if applicable)
-- Example data or screenshots (if relevant)
-- Your environment details (OS, Python version, conda version)
-
-### Pull Requests
-
-When submitting pull requests:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Make your changes with clear commit messages
-4. Test your changes with example data
-5. Submit a pull request with a detailed description
-
----
-
 ## License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
