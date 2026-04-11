@@ -25,7 +25,7 @@
 
 ## Overview
 
-This repository contains Jupyter notebooks for **quantitative analysis of spatial fluorescence microscopy images**. The workflow enables precise quantification of fluorescence distribution along cellular filaments and structures.
+This repository contains Jupyter notebooks for **quantitative analysis of spatial fluorescence microscopy images**. The workflows cover straightened fluorescence profiles, kymographs, ROI time courses, peak-position measurements, and skeleton-length quantification for figure-specific analysis tasks.
 
 ### Analysis Pipeline
 
@@ -45,8 +45,9 @@ This repository contains Jupyter notebooks for **quantitative analysis of spatia
 - Automated fluorescence profile extraction along filament axes
 - Multi-channel fluorescence analysis support
 - Kymograph generation for time-series data
+- Peak-position and skeleton-length quantification helpers
 - Publication-ready SVG outputs
-- CSV data export for downstream analysis
+- One formal CSV export per figure for downstream analysis
 - Reproducible workflows with pinned dependencies
 
 ---
@@ -123,7 +124,7 @@ jupyter lab
 
 ## Project Structure
 
-Each figure is organized in its own folder with a standardized numbering system for data and notebooks.
+Each figure is organized in its own folder with a standardized numbering system for data and notebooks. The final notebook and final output directory should always follow the **current figure ID**.
 
 ### Folder Naming Convention
 
@@ -158,11 +159,13 @@ Repository root/
 └── Fig*/
 ```
 
+In a few inherited workflows, the `00_*` raw folder or the preprocessing notebook/output may still carry an earlier panel letter because the source asset was shared with the previous panel in the manuscript. That is expected. The important rule is that the **final plot notebook**, **final output directory**, and **formal exported filenames** follow the current figure ID.
+
 ### Numbering System
 
 | Prefix | Content Type | Description |
 |--------|--------------|-------------|
-| `00_*` | Raw Data | Original input images and annotations |
+| `00_*` | Raw Data | Original input images and annotations; may occasionally retain an upstream/shared panel ID |
 | `01_*` | Analysis / Preprocessing | First figure-level step; usually the plot notebook, or a preprocessing notebook if one exists |
 | `02_*` | Output / Intermediate | Final plot outputs for simple figures, or intermediate outputs when an extra preprocessing step exists |
 | `03_*` | Analysis | Plot notebook for figures that already have a `01_*` preprocessing step |
@@ -329,7 +332,7 @@ Generate quantitative plots and export data for publication.
 
 5. **Review outputs**:
    - **SVG files**: Vector graphics for publication
-   - **CSV files**: Raw and normalized intensity data
+   - **CSV files**: The single formal figure-level table, including measurements and metadata needed for downstream analysis
 
 #### Output Files
 
@@ -338,12 +341,12 @@ Standardized outputs now use the **figure ID as the basename whenever possible**
 ```text
 *_plot_output/
 ├── FigX.svg                  # Single primary plot
-├── FigX.csv                  # Raw + normalized measurements in one table
+├── FigX.csv                  # The one formal CSV export for that figure
 ├── FigX_c1_membrane.svg      # Channel-specific companion plot when needed
-└── FigX001.svg / FigX001.csv # Per-example outputs when a figure exports multiple examples
+└── FigX001.svg               # Optional per-example SVG outputs when needed
 ```
 
-Avoid descriptive suffixes such as `*_intensity_data.csv`, `*_raw_data.csv`, or `*_normalized_data.csv` unless a notebook truly needs multiple distinct tables of the same type.
+Avoid descriptive suffixes such as `*_intensity_data.csv`, `*_raw_data.csv`, or `*_normalized_data.csv`. If a workflow internally generates multiple tables, consolidate them into one formal figure-level CSV with metadata columns that identify the subpanel / channel / condition.
 
 ---
 
@@ -366,15 +369,15 @@ All analysis notebooks generate standardized output files for reproducibility an
 ├── FigX.svg                      # Single exported plot
 ├── FigX.csv                      # Single exported data table
 ├── FigX_channel-name.svg         # Optional channel-specific companion plot
-└── FigX###.svg / FigX###.csv     # Optional per-sample outputs for multi-example figures
+└── FigX###.svg                   # Optional per-sample SVG outputs for multi-example figures
 ```
 
 ### Data Format
 
 CSV files typically contain:
-- **Position data**: Bin number, distance along axis (µm or normalized 0-1)
-- **Intensity data**: Per-channel fluorescence values, typically with raw and normalized columns stored in the same CSV
-- **Metadata**: Image identifiers, channel names, analysis parameters
+- **Position or measurement data**: For example bin number, distance along axis, peak position, or skeleton length
+- **Quantitative values**: Per-channel fluorescence values or other derived measurements, typically with raw and normalized columns stored in the same CSV when relevant
+- **Metadata**: Image identifiers, channel names, conditions, analysis parameters, or table-type labels used to merge multiple internal tables into one export
 
 ---
 
