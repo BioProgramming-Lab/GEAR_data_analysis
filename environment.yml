@@ -95,3 +95,4 @@ dependencies:
       - tzdata==2025.3
       - urllib3==2.6.2
       - widgetsnbextension==4.0.15
+      - -e .

@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from csv_output_common import combine_export_tables, remove_files
-from straightener_common import (
+from .csv_output_common import combine_export_tables, remove_files
+from .straightener_common import (
     STRAIGHTENER_CONFIGS,
     build_straightened_stack_map,
     to_grayscale_frames,

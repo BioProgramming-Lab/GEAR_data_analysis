@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from straightener_common import to_grayscale_frames
+from .straightener_common import to_grayscale_frames
 
 
 def analyze_split_profile_stack(

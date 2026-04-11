@@ -14,6 +14,8 @@ from scipy.sparse.csgraph import dijkstra
 from skan import Skeleton as SkanSkeleton
 from skimage.morphology import skeletonize as skel_func
 
+from ._paths import REPO_ROOT
+
 
 @dataclass(frozen=True)
 class StraightenerConfig:
@@ -35,7 +37,6 @@ class ProcessedImageSet:
 
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"}
-REPO_ROOT = Path(__file__).resolve().parent
 MATCH_SUFFIX_PATTERNS = (
     re.compile(r"(?:_|-)?c\d+$", re.IGNORECASE),
     re.compile(r"(?:_|-)[A-Za-z]$"),

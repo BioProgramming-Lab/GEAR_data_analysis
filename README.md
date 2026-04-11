@@ -79,9 +79,15 @@ cd GEAR_data_analysis
 conda env create -f environment.yml
 conda activate GEAR_data_analysis
 
+# Install the local analysis package in editable mode
+# (already included in environment.yml; rerun manually after package-layout changes)
+python -m pip install -e .
+
 # (Optional) Register kernel for Jupyter
 python -m ipykernel install --user --name GEAR_data_analysis
 ```
+
+The shared analysis code lives under `src/gear_data_analysis/` and is intended to be used as an **editable local package** so notebooks, scripts, and helpers all import the same codebase.
 
 ### Running Notebooks
 
@@ -138,10 +144,18 @@ FigureFolderWithPreprocessing/
 └── 04_*_plot_output/
 
 Repository root/
-├── csv_output_common.py         # Shared helpers for consolidating multi-table figure CSV exports
-├── straightener_common.py       # Shared straightening functions/configs
-├── skeleton_length_common.py    # Shared polygon / skeleton-length quantification helpers
-└── peak_position_common.py      # Shared straightened-profile peak-position helpers
+├── src/gear_data_analysis/      # Shared reusable analysis package
+│   ├── _bootstrap.py            # Notebook/package bootstrap helpers
+│   ├── csv_output_common.py
+│   ├── straightener_common.py
+│   ├── profile_common.py
+│   ├── split_profile_common.py
+│   ├── kymograph_common.py
+│   ├── roi_timecourse_common.py
+│   ├── skeleton_length_common.py
+│   └── peak_position_common.py
+├── scripts/                    # Local-only helper scripts (ignored)
+└── Fig*/
 ```
 
 ### Numbering System
@@ -185,15 +199,29 @@ Final CSV rule:
 - Each figure should keep exactly one formal CSV in its output directory, named only by the current figure ID such as `FigS8d.csv`.
 - If a figure internally generates multiple tables during plotting, they should be consolidated into that one figure-level CSV with metadata columns that identify the subpanel / channel / condition.
 
-Figures that quantify polygon or mask skeleton lengths can follow the same notebook layout while using the shared `skeleton_length_common.py` helper instead of `straightener_common.py`.
-Figures that quantify peak positions from straightened profiles can use the shared `peak_position_common.py` helper while still pulling their straightened stacks from `straightener_common.py`.
+Figures that quantify polygon or mask skeleton lengths can follow the same notebook layout while using the shared `gear_data_analysis.skeleton_length_common` helper instead of `gear_data_analysis.straightener_common`.
+Figures that quantify peak positions from straightened profiles can use the shared `gear_data_analysis.peak_position_common` helper while still pulling their straightened stacks from `gear_data_analysis.straightener_common`.
 
 ### Path Configuration
 
-All notebooks use **relative paths** with `pathlib.Path` for portability:
+All notebooks use **relative paths** with `pathlib.Path` for portability. They first try the installed editable package and only fall back to the local `src/` path when needed:
 
 ```python
+import sys
 from pathlib import Path
+
+try:
+    from gear_data_analysis._bootstrap import bootstrap_notebook
+except ModuleNotFoundError:
+    REPO_ROOT = ...
+    SRC_ROOT = REPO_ROOT / "src"
+    if str(SRC_ROOT) not in sys.path:
+        sys.path.insert(0, str(SRC_ROOT))
+    from gear_data_analysis._bootstrap import bootstrap_notebook
+
+REPO_ROOT, SRC_ROOT = bootstrap_notebook(Path.cwd().resolve())
+
+from gear_data_analysis.straightener_common import STRAIGHTENER_CONFIGS
 
 # Input paths (relative to notebook location)
 membrane_dir = Path('00_Fig2f_raw/c2_membrane')
@@ -204,7 +232,7 @@ output_svg_file = Path('02_Fig2f_plot_output/Fig2f.svg')
 output_csv_file = Path('02_Fig2f_plot_output/Fig2f.csv')
 ```
 
-> **Note**: Plot notebooks are still intended to run from the figure folder. The shared straightener module resolves raw-data paths from the repository root, so no intermediate straightener outputs need to be written to disk.
+> **Note**: Plot notebooks are still intended to run from the figure folder. The shared package resolves raw-data paths from the repository root, so no intermediate straightener outputs need to be written to disk. The editable install keeps package imports and repository-relative data paths aligned to the same checkout.
 
 ---
 
@@ -212,7 +240,7 @@ output_csv_file = Path('02_Fig2f_plot_output/Fig2f.csv')
 
 ### 1. Straightening (if needed)
 
-Image straightening aligns filaments along a principal axis for consistent analysis. In this repository, straightening is provided by the shared root-level module `straightener_common.py` and is called directly inside the relevant plot notebooks.
+Image straightening aligns filaments along a principal axis for consistent analysis. In this repository, straightening is provided by the shared package module `gear_data_analysis.straightener_common` and is called directly inside the relevant plot notebooks.
 
 #### Steps
 
@@ -220,12 +248,15 @@ Image straightening aligns filaments along a principal axis for consistent analy
 
 2. **Configure parameters**:
    ```python
-   from straightener_common import STRAIGHTENER_CONFIGS, build_named_straightened_images
+   from gear_data_analysis.straightener_common import (
+       STRAIGHTENER_CONFIGS,
+       build_named_straightened_images,
+   )
 
    straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['Fig1h'])
    ```
 
-3. **Review the shared configuration** in `straightener_common.py`:
+3. **Review the shared configuration** in `src/gear_data_analysis/straightener_common.py`:
    - target channel with LabelMe annotations
    - mapping channels to straighten with the same mask/skeleton
    - skeleton start preference (`'top'`, `'bottom'`, `'left'`, `'right'`)
@@ -255,8 +286,25 @@ Generate quantitative plots and export data for publication.
 
 2. **Configure input paths**:
    ```python
+   import sys
    from pathlib import Path
-   from straightener_common import STRAIGHTENER_CONFIGS, build_named_straightened_images, build_straightened_stack_map
+
+   try:
+       from gear_data_analysis._bootstrap import bootstrap_notebook
+   except ModuleNotFoundError:
+       REPO_ROOT = ...
+       SRC_ROOT = REPO_ROOT / "src"
+       if str(SRC_ROOT) not in sys.path:
+           sys.path.insert(0, str(SRC_ROOT))
+       from gear_data_analysis._bootstrap import bootstrap_notebook
+
+   REPO_ROOT, SRC_ROOT = bootstrap_notebook(Path.cwd().resolve())
+
+   from gear_data_analysis.straightener_common import (
+       STRAIGHTENER_CONFIGS,
+       build_named_straightened_images,
+       build_straightened_stack_map,
+   )
 
    # For ROI analysis
    membrane_dir = Path('00_Fig2f_raw/c2_membrane')

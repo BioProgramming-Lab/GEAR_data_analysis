@@ -8,7 +8,7 @@ import numpy as np
 from matplotlib.patches import Rectangle
 from scipy.interpolate import make_interp_spline
 
-from straightener_common import to_grayscale_frame
+from .straightener_common import to_grayscale_frame
 
 
 def load_single_image(image_source):

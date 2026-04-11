@@ -1,8 +1,11 @@
 .DS_Store
 __pycache__/
-verify_plot_outputs.py
 .plot_output_reference/
 Temporary directory/
+scripts/
 .nbcheck/
 .ipynb_checkpoints/
 *.[cC][zZ][iI]
+*.egg-info/
+build/
+dist/

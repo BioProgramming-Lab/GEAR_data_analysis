@@ -14,7 +14,7 @@ import pandas as pd
 import seaborn as sns
 from PIL import Image, ImageDraw
 
-from straightener_common import extract_skeleton_and_longest_path
+from .straightener_common import extract_skeleton_and_longest_path
 
 
 def iter_json_files(inputs: Iterable[str | Path]) -> list[Path]:
