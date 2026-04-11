@@ -1,0 +1,64 @@
+{
+  "version": "6.0.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "filament",
+      "points": [
+        [
+          46.599999999999994,
+          53.25
+        ],
+        [
+          45.2,
+          52.25
+        ],
+        [
+          45.7,
+          48.7
+        ],
+        [
+          46.7,
+          47.7
+        ],
+        [
+          46.7,
+          46.7
+        ],
+        [
+          51.2,
+          42.2
+        ],
+        [
+          52.2,
+          42.2
+        ],
+        [
+          53.599999999999994,
+          43.55
+        ],
+        [
+          52.7,
+          45.7
+        ],
+        [
+          50.7,
+          47.7
+        ],
+        [
+          50.7,
+          48.7
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "Snap-8268-Create Image Subset and Split-58_c2.tif",
+  "imageData": null,
+  "imageHeight": 100,
+  "imageWidth": 100
+}

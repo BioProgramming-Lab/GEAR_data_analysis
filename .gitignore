@@ -1,4 +1,8 @@
 .DS_Store
-.DS_Store
-
-.DS_Store
+__pycache__/
+verify_plot_outputs.py
+.plot_output_reference/
+Temporary directory/
+.nbcheck/
+.ipynb_checkpoints/
+*.[cC][zZ][iI]

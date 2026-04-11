@@ -103,7 +103,7 @@ jupyter lab
 
 | Component | Description |
 |-----------|-------------|
-| **Channel Folders** | Typically named `c1`, `c2`, etc. Files are matched by sorted filename order unless otherwise specified in a notebook |
+| **Channel Folders** | Typically named `c1`, `c2`, etc. Files are matched by normalized basename (for example `*_c1` with `*_c3`, or `ACA-5-m` with `ACA-5-g`) |
 | **ROI/Mask Files** | LabelMe-style JSON polygons, usually one JSON per image with the same basename as the image |
 | **Image Files** | TIFF format (single-frame or multi-frame for time-series) |
 
@@ -127,10 +127,21 @@ FigureFolder/
 │   ├── c1_channel1/
 │   ├── c2_channel2/
 │   └── *.json                   # LabelMe annotations
-├── 01_*_straightener.ipynb      # Preprocessing notebook
-├── 02_*_straightener_output/    # Straightened images
-├── 03_*_plot.ipynb             # Analysis and plotting notebook
-└── 04_*_plot_output/           # Final outputs (SVG, CSV)
+├── 01_*_plot.ipynb              # Analysis notebook when no figure-specific preprocessing is needed
+└── 02_*_plot_output/            # Final outputs (SVG, CSV)
+
+FigureFolderWithPreprocessing/
+├── 00_*_raw/
+├── 01_*_cropper.ipynb           # Optional figure-specific preprocessing notebook
+├── 02_*_cropper_output/
+├── 03_*_plot.ipynb
+└── 04_*_plot_output/
+
+Repository root/
+├── csv_output_common.py         # Shared helpers for consolidating multi-table figure CSV exports
+├── straightener_common.py       # Shared straightening functions/configs
+├── skeleton_length_common.py    # Shared polygon / skeleton-length quantification helpers
+└── peak_position_common.py      # Shared straightened-profile peak-position helpers
 ```
 
 ### Numbering System
@@ -138,38 +149,44 @@ FigureFolder/
 | Prefix | Content Type | Description |
 |--------|--------------|-------------|
 | `00_*` | Raw Data | Original input images and annotations |
-| `01_*` | Preprocessing | Straightener/cropper notebooks |
-| `02_*` | Intermediate | Straightener outputs or plot outputs (ROI-only figures) |
-| `03_*` | Analysis | Main plotting and analysis notebooks |
-| `04_*` | Final Output | Publication-ready plots and data tables |
+| `01_*` | Analysis / Preprocessing | First figure-level step; usually the plot notebook, or a preprocessing notebook if one exists |
+| `02_*` | Output / Intermediate | Final plot outputs for simple figures, or intermediate outputs when an extra preprocessing step exists |
+| `03_*` | Analysis | Plot notebook for figures that already have a `01_*` preprocessing step |
+| `04_*` | Final Output | Final plot outputs for figures that already have a `01_*` preprocessing step |
 
 ### Example Structure
 
+Simple figure:
+```text
+Fig2f/
+├── 00_Fig2f_raw/
+├── 01_Fig2f_plot.ipynb
+└── 02_Fig2f_plot_output/
 ```
-FigS7b/
-├── 00_FigS7b_raw/
-│   ├── c1_membrane/
-│   │   ├── image001.tif
-│   │   ├── image001.json
-│   │   └── ...
-│   └── c2_FtsZ/
-│       ├── image001.tif
-│       └── ...
-├── 01_FigS7b_straightener.ipynb
-├── 02_FigS7b_straightener_output/
-│   ├── c1_membrane_straightened/
-│   └── c2_FtsZ_straightened/
-├── 03_FigS7b_plot.ipynb
-└── 04_FigS7b_plot_output/
-    ├── FigS7b.svg
-    └── FigS7b_data.csv
+
+Figure with extra preprocessing:
+```text
+FigS7g/
+├── 00_FigS7f_raw/
+├── 01_FigS7f_cropper.ipynb
+├── 02_FigS7f_cropper_output/
+├── 03_FigS7g_plot.ipynb
+└── 04_FigS7g_plot_output/
 ```
 
 ### Execution Order
 
-1. **Preprocessing** (if applicable): Run `01_*_straightener.ipynb` or `01_*_cropper.ipynb` to generate `02_*` outputs
-2. **Analysis**: Run `03_*_plot.ipynb` using the generated outputs (or raw data if no preprocessing is needed)
-3. **Export**: Figures and CSV data are saved to `04_*_plot_output/`
+1. **Preprocessing** (if applicable): Run a figure-specific `01_*` notebook such as a cropper
+2. **Analysis**: Run the plot notebook for that figure. For simple figures this is usually `01_*_plot.ipynb`; for figures with extra preprocessing it is typically `03_*_plot.ipynb`
+3. **Export**: Figures and CSV data are saved to the next numbered `*_plot_output/` directory for that figure
+
+Final CSV rule:
+
+- Each figure should keep exactly one formal CSV in its output directory, named only by the current figure ID such as `FigS8d.csv`.
+- If a figure internally generates multiple tables during plotting, they should be consolidated into that one figure-level CSV with metadata columns that identify the subpanel / channel / condition.
+
+Figures that quantify polygon or mask skeleton lengths can follow the same notebook layout while using the shared `skeleton_length_common.py` helper instead of `straightener_common.py`.
+Figures that quantify peak positions from straightened profiles can use the shared `peak_position_common.py` helper while still pulling their straightened stacks from `straightener_common.py`.
 
 ### Path Configuration
 
@@ -179,15 +196,15 @@ All notebooks use **relative paths** with `pathlib.Path` for portability:
 from pathlib import Path
 
 # Input paths (relative to notebook location)
-membrane_dir = Path('00_Fig2F_raw/c2_membrane')
-ftsz_dir = Path('00_Fig2F_raw/c1_FtsZ')
+membrane_dir = Path('00_Fig2f_raw/c2_membrane')
+ftsz_dir = Path('00_Fig2f_raw/c1_FtsZ')
 
 # Output paths
-output_svg_file = Path('04_Fig2F_plot_output/Fig2F.svg')
-output_csv_file = Path('04_Fig2F_plot_output/Fig2F_data.csv')
+output_svg_file = Path('02_Fig2f_plot_output/Fig2f.svg')
+output_csv_file = Path('02_Fig2f_plot_output/Fig2f.csv')
 ```
 
-> **Note**: Paths are resolved from the notebook's working directory (typically the figure folder). If running from a different directory, adjust paths accordingly.
+> **Note**: Plot notebooks are still intended to run from the figure folder. The shared straightener module resolves raw-data paths from the repository root, so no intermediate straightener outputs need to be written to disk.
 
 ---
 
@@ -195,41 +212,36 @@ output_csv_file = Path('04_Fig2F_plot_output/Fig2F_data.csv')
 
 ### 1. Straightening (if needed)
 
-Image straightening aligns filaments along a principal axis for consistent analysis.
+Image straightening aligns filaments along a principal axis for consistent analysis. In this repository, straightening is provided by the shared root-level module `straightener_common.py` and is called directly inside the relevant plot notebooks.
 
 #### Steps
 
-1. **Open the straightener notebook** (e.g., `Fig5g/01_Fig5g_Straightener.ipynb`)
+1. **Open the analysis notebook** for the figure that needs straightening (for example `Fig1h/01_Fig1h_plot.ipynb`)
 
 2. **Configure parameters**:
    ```python
-   TARGET_DIR = Path('00_raw/c1_target')      # Channel with JSON annotations
-   MAPPING_DIRS = [                            # Additional channels to process
-       Path('00_raw/c2_channel2'),
-       Path('00_raw/c3_channel3')
-   ]
-   OUTPUT_DIR = Path('02_straightener_output') # Destination for output
+   from straightener_common import STRAIGHTENER_CONFIGS, build_named_straightened_images
 
-   # Optional parameters
-   SKELETON_START_PREFERENCE = 'top'           # or 'bottom', 'left', 'right'
-   PAD_TO_CANVAS = True                        # Pad to uniform canvas size
+   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['Fig1h'])
    ```
 
-3. **Run validation**: Check file counts and image dimensions match across channels
+3. **Review the shared configuration** in `straightener_common.py`:
+   - target channel with LabelMe annotations
+   - mapping channels to straighten with the same mask/skeleton
+   - skeleton start preference (`'top'`, `'bottom'`, `'left'`, `'right'`)
+   - optional padding behavior for canvas-standardized outputs
 
-4. **Process images**: Execute the straightening algorithm
+4. **Run the notebook**: The straightening algorithm runs in memory during notebook execution
 
-5. **Inspect results**: Use the navigation widget to review skeleton extraction and orientation
-
-6. **Export**: Save individual TIFFs or multi-frame stacks
+5. **Inspect results**: The returned arrays are consumed directly by the plotting code, so no intermediate TIFF stacks need to be exported
 
 #### Configuration Options
 
 | Parameter | Description | Options |
 |-----------|-------------|---------|
-| `SKELETON_START_PREFERENCE` | Preferred skeleton start point | `'top'`, `'bottom'`, `'left'`, `'right'` |
-| `PAD_TO_CANVAS` | Pad images to uniform size | `True`, `False` |
-| `OUTPUT_CANVAS_SIZE` | Target output dimensions (pixels) | `(width, height)` tuple |
+| `start_preference` | Preferred skeleton start point | `'top'`, `'bottom'`, `'left'`, `'right'` |
+| `pad_to_canvas` | Pad images to uniform size | `True`, `False` |
+| `output_width` / `output_height` | Target padded canvas size (pixels) | Integer width / height |
 
 ---
 
@@ -239,22 +251,24 @@ Generate quantitative plots and export data for publication.
 
 #### Steps
 
-1. **Open the analysis notebook** (e.g., `Fig5g/03_Fig5g_plot.ipynb`)
+1. **Open the analysis notebook** (e.g., `Fig2f/01_Fig2f_plot.ipynb`, or `FigS7g/03_FigS7g_plot.ipynb` if the figure has an extra preprocessing step)
 
 2. **Configure input paths**:
    ```python
    from pathlib import Path
+   from straightener_common import STRAIGHTENER_CONFIGS, build_named_straightened_images, build_straightened_stack_map
 
    # For ROI analysis
-   membrane_dir = Path('00_raw/c1_membrane')
-   protein_dir = Path('00_raw/c2_protein')
+   membrane_dir = Path('00_Fig2f_raw/c2_membrane')
+   protein_dir = Path('00_Fig2f_raw/c1_FtsZ')
 
-   # For kymographs (time-series)
-   stack_file = Path('02_straightener_output/timeseries_stack.tif')
+   # For figures that need straightening before plotting
+   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['Fig1h'])
+   straightened_stacks = build_straightened_stack_map(STRAIGHTENER_CONFIGS['Fig4c'])
 
-   # For axial projections
-   channel1_file = Path('02_straightener_output/c1_straightened.tif')
-   channel2_file = Path('02_straightener_output/c2_straightened.tif')
+   # Example accessors
+   single_image = straightened_images['example_channel_straight.tif']
+   time_series_stack = straightened_stacks['c1_membrane']
    ```
 
 3. **Adjust analysis parameters** (if needed):
@@ -271,13 +285,17 @@ Generate quantitative plots and export data for publication.
 
 #### Output Files
 
+Standardized outputs now use the **figure ID as the basename whenever possible**.
+
+```text
+*_plot_output/
+├── FigX.svg                  # Single primary plot
+├── FigX.csv                  # Raw + normalized measurements in one table
+├── FigX_c1_membrane.svg      # Channel-specific companion plot when needed
+└── FigX001.svg / FigX001.csv # Per-example outputs when a figure exports multiple examples
 ```
-04_plot_output/
-├── FigX_profile.svg          # Fluorescence profile plot
-├── FigX_kymograph.svg        # Time-series kymograph
-├── FigX_data_raw.csv         # Raw intensity values
-└── FigX_data_normalized.csv  # Normalized (0-1) values
-```
+
+Avoid descriptive suffixes such as `*_intensity_data.csv`, `*_raw_data.csv`, or `*_normalized_data.csv` unless a notebook truly needs multiple distinct tables of the same type.
 
 ---
 
@@ -291,25 +309,23 @@ All analysis notebooks generate standardized output files for reproducibility an
 |-----------|---------|-------------|
 | `.csv` | Quantitative Data | Raw and normalized intensity values, bin positions, statistical metrics |
 | `.svg` | Vector Graphics | Publication-ready plots (editable in Illustrator, Inkscape, etc.) |
-| `.tif` / `.tiff` | Processed Images | Straightened images, single-frame or multi-frame stacks |
+| `.tif` / `.tiff` | Optional Intermediate Images | Figure-specific preprocessing outputs such as cropped stacks |
 
 ### Typical Output Structure
 
-```
-04_plot_output/
-├── FigX_profile.svg              # Axial fluorescence profile
-├── FigX_kymograph.svg            # Time-series heatmap
-├── FigX_overlay.svg              # Multi-channel overlay
-├── FigX_raw_data.csv             # Raw intensity measurements
-├── FigX_normalized_data.csv      # Scaled 0-1 intensities
-└── FigX_statistics.csv           # Summary statistics
+```text
+*_plot_output/
+├── FigX.svg                      # Single exported plot
+├── FigX.csv                      # Single exported data table
+├── FigX_channel-name.svg         # Optional channel-specific companion plot
+└── FigX###.svg / FigX###.csv     # Optional per-sample outputs for multi-example figures
 ```
 
 ### Data Format
 
 CSV files typically contain:
 - **Position data**: Bin number, distance along axis (µm or normalized 0-1)
-- **Intensity data**: Per-channel fluorescence values
+- **Intensity data**: Per-channel fluorescence values, typically with raw and normalized columns stored in the same CSV
 - **Metadata**: Image identifiers, channel names, analysis parameters
 
 ---
