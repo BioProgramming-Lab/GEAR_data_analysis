@@ -1,0 +1,40 @@
+{
+  "version": "6.0.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "scalebar",
+      "points": [
+        [
+          128.1,
+          152.6
+        ],
+        [
+          128.1,
+          157.5
+        ],
+        [
+          128.2,
+          157.79999999999998
+        ],
+        [
+          158.89999999999998,
+          158.1
+        ],
+        [
+          158.89999999999998,
+          152.79999999999998
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "oscillation-1_t001c1.tif",
+  "imageData": null,
+  "imageHeight": 165,
+  "imageWidth": 165
+}

@@ -1,0 +1,5 @@
+sample_id,source_group,kymograph_panel,fft_panel,frame_interval_s,raw_c1_count,raw_c2_count,raw_c3_count,analysis_frame_start,analysis_frame_end,analysis_frame_count,gear_length_um,scale_reference,channel_1,channel_2,channel_3,analysis_note
+sample_01,oscillation-1,FigS10a,FigS10e,30,57,57,57,1,57,57,3.01715272673,scale_ref/ref-1.json,membrane geometry target,mCherry-MinC,MreB-msfGFP,all three channels contain the same contiguous frame range
+sample_02,oscillation-2,FigS10b,FigS10f,30,74,74,74,1,74,74,6.5239986032,scale_ref/ref-2.json,membrane geometry target,mCherry-MinC,MreB-msfGFP,all three channels contain the same contiguous frame range
+sample_04,oscillation-4,FigS10c,FigS10g,30,62,62,62,1,62,62,5.35629224325,scale_ref/ref-4.json,membrane geometry target,mCherry-MinC,MreB-msfGFP,all three channels contain the same contiguous frame range
+sample_06,oscillation-6,FigS10d,FigS10h,15,149,149,134,1,134,134,5.65879929925,scale_ref/ref-6.json,membrane geometry target,mCherry-MinC,MreB-msfGFP,analysis uses the contiguous three-channel intersection t001-t134; c1 and c2 t135-t149 are retained as raw data but excluded

@@ -1,0 +1,36 @@
+{
+  "version": "6.0.0",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "scalebar",
+      "points": [
+        [
+          460.0,
+          495.0
+        ],
+        [
+          460.0,
+          498.0
+        ],
+        [
+          498.0,
+          498.0
+        ],
+        [
+          498.0,
+          495.0
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "ref-4.tif",
+  "imageData": null,
+  "imageHeight": 512,
+  "imageWidth": 512
+}

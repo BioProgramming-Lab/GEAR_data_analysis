@@ -582,10 +582,10 @@ def to_grayscale_frames(
 
 
 STRAIGHTENER_CONFIGS = {
-    "Fig1h": StraightenerConfig(
-        key="Fig1h",
-        target_dir=REPO_ROOT / "Fig1h/00_Fig1h_raw/c2_membrane",
-        mapping_dirs=(REPO_ROOT / "Fig1h/00_Fig1h_raw/c1_mBaojin",),
+    "FigS6c": StraightenerConfig(
+        key="FigS6c",
+        target_dir=REPO_ROOT / "FigS6c/00_FigS6c_raw/c2_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS6c/00_FigS6c_raw/c1_mBaojin",),
         start_preference="left",
     ),
     "Fig3d": StraightenerConfig(
@@ -594,12 +594,12 @@ STRAIGHTENER_CONFIGS = {
         mapping_dirs=(REPO_ROOT / "Fig3d/00_Fig3c_raw/c1_FtsZ",),
         start_preference="left",
     ),
-    "Fig4c": StraightenerConfig(
-        key="Fig4c",
-        target_dir=REPO_ROOT / "Fig4c/00_Fig4b_raw/c1_membrane",
+    "Fig5e": StraightenerConfig(
+        key="Fig5e",
+        target_dir=REPO_ROOT / "Fig5e!!!/00_Fig5e_raw/c1_membrane",
         mapping_dirs=(
-            REPO_ROOT / "Fig4c/00_Fig4b_raw/c2_MinC",
-            REPO_ROOT / "Fig4c/00_Fig4b_raw/c3",
+            REPO_ROOT / "Fig5e!!!/00_Fig5e_raw/c2_MinC",
+            REPO_ROOT / "Fig5e!!!/00_Fig5e_raw/c3",
         ),
         start_preference="bottom",
     ),
@@ -612,28 +612,28 @@ STRAIGHTENER_CONFIGS = {
         ),
         start_preference="right",
     ),
-    "Fig4f_plus": StraightenerConfig(
-        key="Fig4f_plus",
-        target_dir=REPO_ROOT / "Fig4f/00_Fig4f_raw_data/+MinCDE/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "Fig4f/00_Fig4f_raw_data/+MinCDE/c2_FtsZ",),
+    "Fig5g_plus": StraightenerConfig(
+        key="Fig5g_plus",
+        target_dir=REPO_ROOT / "Fig5g/00_Fig5g_raw_data/+MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "Fig5g/00_Fig5g_raw_data/+MinCDE/c2_FtsZ",),
         start_preference="right",
     ),
-    "Fig4f_minus": StraightenerConfig(
-        key="Fig4f_minus",
-        target_dir=REPO_ROOT / "Fig4f/00_Fig4f_raw_data/-MinCDE/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "Fig4f/00_Fig4f_raw_data/-MinCDE/c2_FtsZ",),
+    "Fig5g_minus": StraightenerConfig(
+        key="Fig5g_minus",
+        target_dir=REPO_ROOT / "Fig5g/00_Fig5g_raw_data/-MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "Fig5g/00_Fig5g_raw_data/-MinCDE/c2_FtsZ",),
         start_preference="right",
     ),
-    "Fig4g": StraightenerConfig(
-        key="Fig4g",
-        target_dir=REPO_ROOT / "Fig4g/00_Fig4g_raw/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "Fig4g/00_Fig4g_raw/c3_FtsZ",),
+    "Fig5h": StraightenerConfig(
+        key="Fig5h",
+        target_dir=REPO_ROOT / "Fig5h/00_Fig5h_raw/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "Fig5h/00_Fig5h_raw/c3_FtsZ",),
         start_preference="left",
     ),
-    "FigS3f": StraightenerConfig(
-        key="FigS3f",
-        target_dir=REPO_ROOT / "FigS3f/00_FigS3f_raw/c2_membrane",
-        mapping_dirs=(REPO_ROOT / "FigS3f/00_FigS3f_raw/c1_mBaojin",),
+    "FigS6e": StraightenerConfig(
+        key="FigS6e",
+        target_dir=REPO_ROOT / "FigS6e/00_FigS6e_raw/c2_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS6e/00_FigS6e_raw/c1_mBaojin",),
         start_preference="left",
     ),
     "FigS6d": StraightenerConfig(
@@ -659,14 +659,26 @@ STRAIGHTENER_CONFIGS = {
     ),
     "FigS9a": StraightenerConfig(
         key="FigS9a",
-        target_dir=REPO_ROOT / "FigS9a/00_FigS9a_raw/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "FigS9a/00_FigS9a_raw/c2_FtsZ",),
+        target_dir=REPO_ROOT / "FigS12c:d:e/00_FigS12c_raw/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS12c:d:e/00_FigS12c_raw/c2_FtsZ",),
         start_preference="right",
     ),
     "FigS9b": StraightenerConfig(
         key="FigS9b",
-        target_dir=REPO_ROOT / "FigS9b/00_FigS9b_raw/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "FigS9b/00_FigS9b_raw/c3_FtsZ",),
+        target_dir=REPO_ROOT / "FigS12c:d:e/00_FigS12d_raw/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS12c:d:e/00_FigS12d_raw/c3_FtsZ",),
+        start_preference="right",
+    ),
+    "FigS12c": StraightenerConfig(
+        key="FigS12c",
+        target_dir=REPO_ROOT / "FigS12c:d:e/00_FigS12c_raw/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS12c:d:e/00_FigS12c_raw/c2_FtsZ",),
+        start_preference="right",
+    ),
+    "FigS12d": StraightenerConfig(
+        key="FigS12d",
+        target_dir=REPO_ROOT / "FigS12c:d:e/00_FigS12d_raw/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS12c:d:e/00_FigS12d_raw/c3_FtsZ",),
         start_preference="right",
     ),
     "FigS8C": StraightenerConfig(
@@ -677,14 +689,26 @@ STRAIGHTENER_CONFIGS = {
     ),
     "FigS8d_minus": StraightenerConfig(
         key="FigS8d_minus",
-        target_dir=REPO_ROOT / "FigS8d/00_FigS8d_raw/-MinCDE/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "FigS8d/00_FigS8d_raw/-MinCDE/c2_FtsZ",),
+        target_dir=REPO_ROOT / "FigS11d:e/00_FigS11de_raw/-MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS11d:e/00_FigS11de_raw/-MinCDE/c2_FtsZ",),
         start_preference="right",
     ),
     "FigS8d_plus": StraightenerConfig(
         key="FigS8d_plus",
-        target_dir=REPO_ROOT / "FigS8d/00_FigS8d_raw/+MinCDE/c1_membrane",
-        mapping_dirs=(REPO_ROOT / "FigS8d/00_FigS8d_raw/+MinCDE/c2_FtsZ",),
+        target_dir=REPO_ROOT / "FigS11d:e/00_FigS11de_raw/+MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS11d:e/00_FigS11de_raw/+MinCDE/c2_FtsZ",),
+        start_preference="right",
+    ),
+    "FigS11d": StraightenerConfig(
+        key="FigS11d",
+        target_dir=REPO_ROOT / "FigS11d:e/00_FigS11de_raw/-MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS11d:e/00_FigS11de_raw/-MinCDE/c2_FtsZ",),
+        start_preference="right",
+    ),
+    "FigS11e": StraightenerConfig(
+        key="FigS11e",
+        target_dir=REPO_ROOT / "FigS11d:e/00_FigS11de_raw/+MinCDE/c1_membrane",
+        mapping_dirs=(REPO_ROOT / "FigS11d:e/00_FigS11de_raw/+MinCDE/c2_FtsZ",),
         start_preference="right",
     ),
 }

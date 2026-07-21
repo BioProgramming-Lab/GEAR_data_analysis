@@ -22,6 +22,7 @@ class RoiTimecourseConfig:
     time_per_frame: float
     secondary_column_key: str
     secondary_plot_label: str
+    time_from_sorted_order: bool = False
     x_limit: tuple[float, float] = (0, 60)
     membrane_plot_label: str = "Membrane"
     membrane_color: str = "#B200F4"
@@ -144,6 +145,7 @@ def process_mapped_files(
     secondary_dir: Path,
     time_per_frame: float,
     secondary_column_key: str,
+    time_from_sorted_order: bool = False,
 ) -> pd.DataFrame:
     data: list[dict[str, float | int]] = []
 
@@ -152,7 +154,7 @@ def process_mapped_files(
     membrane_raw_key = "Membrane_Raw_Intensity"
     secondary_raw_key = f"{secondary_column_key}_Raw_Intensity"
 
-    for mapping in file_mapping:
+    for frame_order, mapping in enumerate(file_mapping):
         timepoint = int(mapping["timepoint"])
         membrane_tif_path = membrane_dir / str(mapping["membrane_tif"])
         secondary_tif_path = secondary_dir / str(mapping["secondary_tif"])
@@ -169,7 +171,10 @@ def process_mapped_files(
                 float(np.mean(secondary_roi_pixels)) if len(secondary_roi_pixels) > 0 else 0.0
             )
 
-            time_adjusted = (timepoint - 1) * time_per_frame
+            if time_from_sorted_order:
+                time_adjusted = frame_order * time_per_frame
+            else:
+                time_adjusted = (timepoint - 1) * time_per_frame
             data.append(
                 {
                     "Frame": timepoint,
@@ -331,6 +336,7 @@ def run_roi_timecourse(config: RoiTimecourseConfig) -> pd.DataFrame:
         secondary_dir=config.secondary_dir,
         time_per_frame=config.time_per_frame,
         secondary_column_key=config.secondary_column_key,
+        time_from_sorted_order=config.time_from_sorted_order,
     )
 
     print("\n=== Processing Results ===")

@@ -1,0 +1,11 @@
+sample_id,source_group,raw_data_in_repository,kymograph_panel,fft_panel,gear_length_um,oscillation_period_s,oscillation_period_min,frame_interval_s,fft_frame_count,fft_peak_frequency_hz,fft_peak_bin_index,selection_pass,exclusion_reason
+sample_01,oscillation-1,True,FigS10a,FigS10e,3.01715272673,427.5,7.125,30,57,0.00233918128655,4,True,
+sample_02,oscillation-2,True,FigS10b,FigS10f,6.5239986032,444,7.4,30,74,0.00225225225225,5,True,
+sample_03,oscillation-3,False,,,6.65177797722,500,8.33333333333,30,50,0.002,3,True,
+sample_04,oscillation-4,True,FigS10c,FigS10g,5.35629224325,116.25,1.9375,30,62,0.00860215053763,16,True,
+sample_05,oscillation-5,False,,,3.18707188248,112.5,1.875,30,30,0.00888888888889,8,True,
+sample_06,oscillation-6,True,FigS10d,FigS10h,5.65879929925,223.333333333,3.72222222222,15,134,0.0044776119403,9,True,
+sample_07,oscillation-7,False,,,5.06954364826,325,5.41666666667,15,65,0.00307692307692,3,True,
+sample_08,oscillation-8,False,,,6.81535593729,190,3.16666666667,30,19,0.00526315789474,3,True,
+sample_09,oscillation-9,False,,,4.12334306589,293.5,4.89166666667,14.675,40,0.00340715502555,2,True,
+sample_10,oscillation-10,False,,,5.38117257695,255,4.25,20,51,0.00392156862745,4,True,

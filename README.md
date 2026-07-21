@@ -154,7 +154,8 @@ Repository root/
 │   ├── kymograph_common.py
 │   ├── roi_timecourse_common.py
 │   ├── skeleton_length_common.py
-│   └── peak_position_common.py
+│   ├── peak_position_common.py
+│   └── oscillation_period_common.py
 ├── scripts/                    # Local-only helper scripts (ignored)
 └── Fig*/
 ```
@@ -175,10 +176,10 @@ In a few inherited workflows, the `00_*` raw folder or the preprocessing noteboo
 
 Simple figure:
 ```text
-Fig2f/
-├── 00_Fig2f_raw/
-├── 01_Fig2f_plot.ipynb
-└── 02_Fig2f_plot_output/
+Fig4f/
+├── 00_Fig4f_raw/
+├── 01_Fig4f_plot.ipynb
+└── 02_Fig4f_plot_output/
 ```
 
 Figure with extra preprocessing:
@@ -227,12 +228,12 @@ REPO_ROOT, SRC_ROOT = bootstrap_notebook(Path.cwd().resolve())
 from gear_data_analysis.straightener_common import STRAIGHTENER_CONFIGS
 
 # Input paths (relative to notebook location)
-membrane_dir = Path('00_Fig2f_raw/c2_membrane')
-ftsz_dir = Path('00_Fig2f_raw/c1_FtsZ')
+membrane_dir = Path('00_Fig4f_raw/c2_membrane')
+ftsz_dir = Path('00_Fig4f_raw/c1_FtsZ')
 
 # Output paths
-output_svg_file = Path('02_Fig2f_plot_output/Fig2f.svg')
-output_csv_file = Path('02_Fig2f_plot_output/Fig2f.csv')
+output_svg_file = Path('02_Fig4f_plot_output/Fig4f.svg')
+output_csv_file = Path('02_Fig4f_plot_output/Fig4f.csv')
 ```
 
 > **Note**: Plot notebooks are still intended to run from the figure folder. The shared package resolves raw-data paths from the repository root, so no intermediate straightener outputs need to be written to disk. The editable install keeps package imports and repository-relative data paths aligned to the same checkout.
@@ -247,7 +248,7 @@ Image straightening aligns filaments along a principal axis for consistent analy
 
 #### Steps
 
-1. **Open the analysis notebook** for the figure that needs straightening (for example `Fig1h/01_Fig1h_plot.ipynb`)
+1. **Open the analysis notebook** for the figure that needs straightening (for example `FigS6c/01_FigS6c_plot.ipynb`)
 
 2. **Configure parameters**:
    ```python
@@ -256,7 +257,7 @@ Image straightening aligns filaments along a principal axis for consistent analy
        build_named_straightened_images,
    )
 
-   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['Fig1h'])
+   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['FigS6c'])
    ```
 
 3. **Review the shared configuration** in `src/gear_data_analysis/straightener_common.py`:
@@ -285,7 +286,7 @@ Generate quantitative plots and export data for publication.
 
 #### Steps
 
-1. **Open the analysis notebook** (e.g., `Fig2f/01_Fig2f_plot.ipynb`, or `FigS7g/03_FigS7g_plot.ipynb` if the figure has an extra preprocessing step)
+1. **Open the analysis notebook** (e.g., `Fig4f/01_Fig4f_plot.ipynb`, or `FigS7g/03_FigS7g_plot.ipynb` if the figure has an extra preprocessing step)
 
 2. **Configure input paths**:
    ```python
@@ -310,12 +311,12 @@ Generate quantitative plots and export data for publication.
    )
 
    # For ROI analysis
-   membrane_dir = Path('00_Fig2f_raw/c2_membrane')
-   protein_dir = Path('00_Fig2f_raw/c1_FtsZ')
+   membrane_dir = Path('00_Fig4f_raw/c2_membrane')
+   protein_dir = Path('00_Fig4f_raw/c1_FtsZ')
 
    # For figures that need straightening before plotting
-   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['Fig1h'])
-   straightened_stacks = build_straightened_stack_map(STRAIGHTENER_CONFIGS['Fig4c'])
+   straightened_images = build_named_straightened_images(STRAIGHTENER_CONFIGS['FigS6c'])
+   straightened_stacks = build_straightened_stack_map(STRAIGHTENER_CONFIGS['Fig5e'])
 
    # Example accessors
    single_image = straightened_images['example_channel_straight.tif']

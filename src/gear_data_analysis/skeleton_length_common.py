@@ -363,7 +363,7 @@ def write_csv_rows(rows: list[dict[str, object]], output_path: Path) -> None:
         writer.writerows(rows)
 
 
-def load_figs3e_values(csv_path: Path) -> tuple[np.ndarray, bool]:
+def load_fig3e_values(csv_path: Path) -> tuple[np.ndarray, bool]:
     df = pd.read_csv(csv_path)
     use_um = (
         "longest_skeleton_length_um" in df.columns
@@ -395,10 +395,10 @@ def choose_histogram_bins(values: np.ndarray, use_um: bool) -> np.ndarray:
     return bins
 
 
-def render_figs3e_hist_from_csv(
+def render_fig3e_hist_from_csv(
     csv_path: Path, svg_path: Path, png_path: Path | None = None
 ) -> None:
-    values, use_um = load_figs3e_values(csv_path)
+    values, use_um = load_fig3e_values(csv_path)
 
     plt.rcParams["font.family"] = "Times New Roman"
     plt.rcParams["svg.fonttype"] = "none"
@@ -436,7 +436,7 @@ def render_figs3e_hist_from_csv(
     plt.close(fig)
 
 
-def build_figs4b_plot_dataframe(csv_path: Path) -> pd.DataFrame:
+def build_figs7b_plot_dataframe(csv_path: Path) -> pd.DataFrame:
     df = pd.read_csv(csv_path)
     group_order = [
         ("more1-c2", ">=2"),
@@ -459,10 +459,10 @@ def build_figs4b_plot_dataframe(csv_path: Path) -> pd.DataFrame:
     return plot_df
 
 
-def render_figs4b_boxstrip_from_csv(
+def render_figs7b_boxstrip_from_csv(
     csv_path: Path, svg_path: Path, png_path: Path | None = None
 ) -> None:
-    plot_df = build_figs4b_plot_dataframe(csv_path)
+    plot_df = build_figs7b_plot_dataframe(csv_path)
 
     plt.rcParams["svg.fonttype"] = "none"
     sns.set_style("white")
@@ -521,23 +521,23 @@ def render_figs4b_boxstrip_from_csv(
     plt.close(fig)
 
 
-def run_figs3e_figure(fig_dir: Path) -> dict[str, object]:
+def run_fig3e_figure(fig_dir: Path) -> dict[str, object]:
     fig_dir = Path(fig_dir).resolve()
-    raw_root = fig_dir / "00_FigS3e_raw"
+    raw_root = fig_dir / "00_Fig3e_raw"
     czi_root = raw_root / "Multi-filaments-czi"
-    output_dir = fig_dir / "02_FigS3e_plot_output"
-    output_csv = output_dir / "FigS3e.csv"
-    output_svg = output_dir / "FigS3e.svg"
+    output_dir = fig_dir / "02_Fig3e_plot_output"
+    output_csv = output_dir / "Fig3e.csv"
+    output_svg = output_dir / "Fig3e.svg"
 
     rows, calibration = analyze_polygon_lengths_from_raw(
         input_root=raw_root,
         czi_root=czi_root,
-        base_dir=fig_dir / "00_FigS3e_raw",
+        base_dir=fig_dir / "00_Fig3e_raw",
         padding=2,
         display_root_name="Multi-filaments",
     )
     write_csv_rows(rows, output_csv)
-    render_figs3e_hist_from_csv(output_csv, output_svg)
+    render_fig3e_hist_from_csv(output_csv, output_svg)
     return {
         "rows": rows,
         "calibration": calibration,
@@ -546,14 +546,14 @@ def run_figs3e_figure(fig_dir: Path) -> dict[str, object]:
     }
 
 
-def run_figs4b_figure(fig_dir: Path) -> dict[str, object]:
+def run_figs7b_figure(fig_dir: Path) -> dict[str, object]:
     fig_dir = Path(fig_dir).resolve()
-    raw_root = fig_dir / "00_FigS4b_raw"
+    raw_root = fig_dir / "00_FigS7b_raw"
     group_dirs = [raw_root / "0-c2", raw_root / "1-c2", raw_root / "more1-c2"]
     reference_czi = raw_root / "Snap-8223-Create Image Subset and Split-01.czi"
-    output_dir = fig_dir / "02_FigS4b_plot_output"
-    output_csv = output_dir / "FigS4b.csv"
-    output_svg = output_dir / "FigS4b.svg"
+    output_dir = fig_dir / "02_FigS7b_plot_output"
+    output_csv = output_dir / "FigS7b.csv"
+    output_svg = output_dir / "FigS7b.svg"
 
     rows, calibration = analyze_grouped_lengths_from_raw(
         group_dirs=group_dirs,
@@ -561,7 +561,7 @@ def run_figs4b_figure(fig_dir: Path) -> dict[str, object]:
         reference_czi=reference_czi,
     )
     write_csv_rows(rows, output_csv)
-    render_figs4b_boxstrip_from_csv(output_csv, output_svg)
+    render_figs7b_boxstrip_from_csv(output_csv, output_svg)
     return {
         "rows": rows,
         "calibration": calibration,
