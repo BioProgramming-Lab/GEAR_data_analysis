@@ -1,0 +1,28 @@
+dna composition - final reviewed annotations
+
+Size gates (um): <15, 15-20, 20-25, >=25
+n_fields: number of TIFs contributing to that condition
+n_classified: attached + none (the figure columns)
+unsure is shown separately and excluded from the attached ratio
+not_guv objects are absent from the annotations
+attached_ratio = attached / (attached + none)
+
+condition	n_fields	size_bin	n_attached	n_none	n_classified	n_unsure	n_total_annotated	attached_ratio	attached_pct
+1 nM DNA	5	<15	328	692	1020	68	1088	0.3216	32.2
+1 nM DNA	5	15–20	165	251	416	35	451	0.3966	39.7
+1 nM DNA	5	20–25	51	89	140	15	155	0.3643	36.4
+1 nM DNA	5	≥25	23	35	58	5	63	0.3966	39.7
+1 nM DNA	5	total	567	1067	1634	123	1757	0.3470	34.7
+
+2 nM DNA	5	<15	262	704	966	73	1039	0.2712	27.1
+2 nM DNA	5	15–20	122	238	360	35	395	0.3389	33.9
+2 nM DNA	5	20–25	43	72	115	16	131	0.3739	37.4
+2 nM DNA	5	≥25	16	34	50	8	58	0.3200	32.0
+2 nM DNA	5	total	443	1048	1491	132	1623	0.2971	29.7
+
+5 nM DNA	5	<15	424	814	1238	109	1347	0.3425	34.2
+5 nM DNA	5	15–20	172	193	365	48	413	0.4712	47.1
+5 nM DNA	5	20–25	53	35	88	19	107	0.6023	60.2
+5 nM DNA	5	≥25	16	14	30	8	38	0.5333	53.3
+5 nM DNA	5	total	665	1056	1721	184	1905	0.3864	38.6
+

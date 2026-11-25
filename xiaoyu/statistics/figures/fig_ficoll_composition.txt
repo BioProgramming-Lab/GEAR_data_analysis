@@ -1,0 +1,28 @@
+ficoll composition - final reviewed annotations
+
+Size gates (um): <15, 15-20, 20-25, >=25
+n_fields: number of TIFs contributing to that condition
+n_classified: attached + none (the figure columns)
+unsure is shown separately and excluded from the attached ratio
+not_guv objects are absent from the annotations
+attached_ratio = attached / (attached + none)
+
+condition	n_fields	size_bin	n_attached	n_none	n_classified	n_unsure	n_total_annotated	attached_ratio	attached_pct
+10 g/L Ficoll	6	<15	412	450	862	58	920	0.4780	47.8
+10 g/L Ficoll	6	15–20	198	105	303	37	340	0.6535	65.3
+10 g/L Ficoll	6	20–25	88	31	119	18	137	0.7395	73.9
+10 g/L Ficoll	6	≥25	70	17	87	21	108	0.8046	80.5
+10 g/L Ficoll	6	total	768	603	1371	134	1505	0.5602	56.0
+
+30 g/L Ficoll	4	<15	245	318	563	36	599	0.4352	43.5
+30 g/L Ficoll	4	15–20	126	84	210	22	232	0.6000	60.0
+30 g/L Ficoll	4	20–25	64	32	96	12	108	0.6667	66.7
+30 g/L Ficoll	4	≥25	74	28	102	16	118	0.7255	72.5
+30 g/L Ficoll	4	total	509	462	971	86	1057	0.5242	52.4
+
+60 g/L Ficoll	5	<15	95	869	964	45	1009	0.0985	9.9
+60 g/L Ficoll	5	15–20	27	167	194	17	211	0.1392	13.9
+60 g/L Ficoll	5	20–25	9	51	60	13	73	0.1500	15.0
+60 g/L Ficoll	5	≥25	7	29	36	7	43	0.1944	19.4
+60 g/L Ficoll	5	total	138	1116	1254	82	1336	0.1100	11.0
+
